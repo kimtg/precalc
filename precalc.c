@@ -8,6 +8,7 @@
 double accept() {
 	char buf[80];
 	scanf_s("%s", buf, _countof(buf));
+	if (feof(stdin)) exit(0);
 	PROCESS_BINARY_OP(+)
 	PROCESS_BINARY_OP(-)
 	PROCESS_BINARY_OP(*)

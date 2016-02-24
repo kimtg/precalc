@@ -4,7 +4,7 @@
 #include <math.h>
 #include <ctype.h>
 
-#define PROCESS_BINARY_OP(op) if (strcmp(buf, #op) == 0) { return accept() op accept(); }
+#define PROCESS_BINARY_OP(op) if (strcmp(buf, #op) == 0) { r = accept() op accept(); }
 
 /* allocate a new string. return null on EOF. */
 char * scan() {
@@ -41,14 +41,15 @@ exit:
 
 double accept() {
 	char * buf = scan();
+	double r;
 	if (!buf) exit(0);
 	PROCESS_BINARY_OP(+)
-	PROCESS_BINARY_OP(-)
-	PROCESS_BINARY_OP(*)
-	PROCESS_BINARY_OP(/)
-	if (strcmp(buf, "sqrt") == 0) { return sqrt(accept()); }
-	if (strcmp(buf, "expt") == 0) { return pow(accept(), accept()); }
-	double r = atof(buf);
+	else PROCESS_BINARY_OP(-)
+	else PROCESS_BINARY_OP(*)
+	else PROCESS_BINARY_OP(/)
+	else if (strcmp(buf, "sqrt") == 0) { r = sqrt(accept()); }
+	else if (strcmp(buf, "expt") == 0) { r = pow(accept(), accept()); }
+	else { r = atof(buf); }
 	free(buf);
 	return r;
 }
